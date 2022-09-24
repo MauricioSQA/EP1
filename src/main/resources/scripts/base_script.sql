@@ -1,54 +1,44 @@
-show tables;
+create table Clientes(
 
-
-/*Crear tabla*/
-CREATE TABLE USERS (
-
-	id int,
-	name varchar(255),
-	lastname varchar(255),
-	username varchar(20),
-	pass    varchar(100),
-	tipDoc  char(5),
-	nroDoc  varchar(20),
-	enable  int
+id int,
+name varchar(255),
+lastname varchar(255),
+username varchar(20),
+pass	varchar(100),
+tipDoc  char(5),
+nroDoc	varchar(20),
+enable  int
 )
 
-/* Añadimos id como primary Key*/
-ALTER TABLE USERS ADD PRIMARY KEY (id) ;
+ALTER TABLE Clientes ADD PRIMARY KEY (id) ;
 
-/* Hacemos el campo id autoincremental y que no permita registros null*/
-ALTER TABLE USERS MODIFY COLUMN id int auto_increment NOT NULL;
+ALTER TABLE Clientes MODIFY COLUMN id int auto_increment NOT NULL;
 
+INSERT INTO Clientes (name,lastname,username,pass,tipDoc,nroDoc,enable)
+VALUES ('Pedro','Lopez','DNI70563829','123456','DNI','70563829',1);
 
+INSERT INTO Clientes (name,lastname,username,pass,tipDoc,nroDoc,enable)
+VALUES ('Camila','Paredes','DNI56384920','123456','DNI','56384920',1);
 
+INSERT INTO Clientes (name,lastname,username,pass,tipDoc,nroDoc,enable)
+VALUES ('Andres','Ramirez','DNI8593489','123456','DNI','8593489',1);
 
+INSERT INTO Clientes (name,lastname,username,pass,tipDoc,nroDoc,enable)
+VALUES ('Ruben','Marquez','DNI73920495','123456','DNI','73920495',1);
 
-/*Insertar*/
-INSERT INTO USERS (name,lastname,username,pass,tipDoc,nroDoc,enable)
-VALUES ('Jose','Zuniga','DNI73267572','123456','DNI','73267572',1);
+INSERT INTO Clientes (name,lastname,username,pass,tipDoc,nroDoc,enable)
+VALUES ('Lucia','Alvitez','DNI74725894','123456','DNI','74725894',1);
 
-
-INSERT INTO USERS (name,lastname,username,pass,tipDoc,nroDoc,enable)
-VALUES ('Maria','Santillan','DNI46299021','123456','DNI','46299021',1);
-
-
-
-/*Actualizar*/
-UPDATE USERS SET name='Mariana' WHERE username ='DNI46299021';
-
-
-/*Eliminar*/
-DELETE FROM USERS WHERE username='DNI73267572';
-
-
-/*Consultar*/
-SELECT * FROM USERS
+select * from Clientes;
 
 
 
 
+create procedure listarAllClients()
+begin
+	select  * from Clientes ;
+end
 
-
+call listarAllClients();
 
 
