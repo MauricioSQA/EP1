@@ -19,49 +19,54 @@ public class Application {
 
         //Crear conexion
 
-        Connection conexion=
-                DriverManager.getConnection("jdbc:mysql://localhost:3306/moduloseg",
-                                            "root","");
+        Connection conexion =
+                DriverManager.getConnection("jdbc:mysql://localhost:3306/EP1",
+                        "root", "");
 
         //Crear Statement
-        //Statement st =conexion.createStatement();
-        //PreparedStatement pt = conexion.prepareStatement("Select * from users where id =?");
-        //pt.setInt(1,3);
+        Statement stCreate = conexion.createStatement();
+        int filasAfectas =
+                stCreate.executeUpdate("insert  into Clientes(name,lastname,username,pass,tipDoc,nroDoc,enable) values('Piero','Rosales','DNI77584930','123456','DNI','77584930',1)");
 
-        //CallableStatement
-        CallableStatement callsp  = conexion.prepareCall("{call validarLogin(?,?,?)}");
-        callsp.setString(1,"DNI46299021");
-        callsp.setString(2,"123456");
-        callsp.registerOutParameter(3, Types.INTEGER);
+        System.out.println("Filas Afectas: " + filasAfectas);
 
+        Statement stmt = conexion.createStatement();
+        ResultSet resultSet = stmt.executeQuery("Select * from Clientes");
 
-        //Ejecutar Sentencia
-        callsp.executeQuery();
-        int resultado = callsp.getInt(3);
-
-        if(resultado == 1){
-            System.out.println("Login Exitoso");
-        }else
-        {
-            System.out.println("Usuario o clave invalido");
+        while (resultSet.next()) {
+            System.out.println(resultSet.getString("name") + "\n" +
+                    resultSet.getString("lastname") + "\n" +
+                    resultSet.getString("nroDoc"));
         }
 
-        CallableStatement callSp2 = conexion.prepareCall("{Call listarAllUsers()}");
-        ResultSet resultadoSp2 = callSp2.executeQuery();
+        //PreparedStatement
+        PreparedStatement preparedStatement = conexion.prepareStatement("Delete  from Clientes where nroDoc=?");
+        preparedStatement.setString(1, "56384920");
 
-        //Recorrer el resultado
-        while(resultadoSp2.next())
-            System.out.println(resultadoSp2.getString("username"));
+        int delnum = preparedStatement.executeUpdate();
+
+        System.out.println("Filas Afectas: " + delnum);
+
+        Statement stmt2 = conexion.createStatement();
+        ResultSet resultSet2 = stmt2.executeQuery("Select * from Clientes");
+
+    //---CallableStatement
+            CallableStatement callsp = conexion.prepareCall("{call listarAllClients()}");
 
 
-        CallableStatement callSp3 = conexion.prepareCall("{Call listarUserPerId(?)}");
-        callSp3.setInt(1,2);
-        ResultSet resultadoSP3 = callSp3.executeQuery();
+            callsp.executeQuery();
 
-        while(resultadoSP3.next()){
-            System.out.println(resultadoSP3.getString("name"));
-        }
+            ResultSet resultado = callsp.executeQuery();
+
+
+            while (resultado.next()) {
+                System.out.println(resultado.getString("name") + "\n" +
+                        resultado.getString("lastname") + "\n" +
+                        resultado.getString("nroDoc"));
+            }
         }
     }
+
+
 
 
